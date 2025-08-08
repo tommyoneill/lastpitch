@@ -1,6 +1,6 @@
 # LastPitch — T3 + Shadcn app
 
-TypeScript-first web app using the T3 stack with pragmatic defaults.
+TypeScript-first web app using the T3 stack with pragmatic defaults.s
 
 ## Stack
 
