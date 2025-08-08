@@ -1,0 +1,29 @@
+---
+description: Prisma and data modeling rules (multi-tenant, performance, safety)
+globs:
+  - "prisma/**/*.prisma"
+  - "src/server/**/*.ts"
+alwaysApply: true
+---
+
+### Modeling
+- Every multi-tenant model includes `tenantId` and a composite unique where applicable (e.g., `@@unique([tenantId, slug])`).
+- Include timestamps: `createdAt` (default now), `updatedAt` (updatedAt). Use `@updatedAt`.
+- Prefer `cuid()` or `uuid()` for ids. Avoid incremental ids.
+- Add explicit `@index` for common filters (foreign keys, `createdAt`).
+
+### Relations & Integrity
+- Use `onDelete: Cascade` only when user experience clearly expects it; otherwise `Restrict`.
+- Avoid optional foreign keys unless truly optional in domain.
+
+### Queries
+- Scope every query by `tenantId` in routers. Never trust client `tenantId`.
+- Narrow selects; avoid `include` unless required for current UI.
+- Batch operations that must be atomic using `db.$transaction`.
+
+### Migrations
+- One logical change per migration. Name clearly.
+- Never edit historical migrations; create new ones.
+
+### Safety
+- No raw SQL in app code for normal paths. If raw is required, wrap in well-tested helpers.

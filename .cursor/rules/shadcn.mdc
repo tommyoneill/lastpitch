@@ -1,0 +1,26 @@
+---
+description: Shadcn UI usage rules (components, styling, accessibility)
+globs:
+  - "src/**/*.tsx"
+alwaysApply: true
+---
+
+### Components
+- Prefer Shadcn primitives (Button, Input, Dialog, DropdownMenu) and compose.
+- Keep components small and focused; lift state out when reusable.
+- Use `cva` for variants; keep names consistent (size, variant, state).
+
+### Styling
+- Tailwind for layout/spacing; avoid custom CSS unless necessary.
+- Keep class lists readable; extract with `cn()` helper when too long.
+
+### Accessibility
+- Provide labels for all inputs and controls.
+- Manage focus on dialogs/menus; ensure keyboard navigation works.
+- Use semantic HTML; avoid div soup.
+
+### Theming
+- Support light/dark via CSS vars. Don’t hardcode colors; use tokens.
+
+### Forms
+- Use Zod + `react-hook-form` with Shadcn inputs where forms are non-trivial.

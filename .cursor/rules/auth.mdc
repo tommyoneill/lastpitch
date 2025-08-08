@@ -1,0 +1,23 @@
+---
+description: Auth.js (NextAuth) usage rules (session, roles, providers)
+globs:
+  - "src/server/auth/**/*.ts"
+  - "src/app/api/auth/**/*.ts"
+  - "src/**/*.tsx"
+alwaysApply: true
+---
+
+### Sessions
+- Access session via `auth()` on the server and `useSession()` on the client.
+- Never take `userId` from client input; always derive from session.
+
+### Providers/Adapter
+- Use Prisma adapter; keep provider-specific fields in the Prisma schema as needed.
+
+### Roles & Tenancy
+- When roles land, attach to session in `callbacks.session` and enforce in procedures.
+- Derive `tenantId` from session or server context.
+
+### Security
+- Protected mutations must use `protectedProcedure` and validate input with Zod.
+- Don’t leak sensitive errors; prefer generic auth errors.

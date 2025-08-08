@@ -1,0 +1,40 @@
+---
+description: TypeScript conventions for this T3 app
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+alwaysApply: true
+---
+
+### General
+- Use explicit types for exports and public function signatures.
+- Prefer local type inference; avoid redundant annotations.
+- Avoid `any`. Prefer `unknown` with refinement or precise unions.
+
+### Naming
+- Functions are verbs (e.g., `createTournament`). Variables are nouns.
+- Booleans: `is/has/should/can` prefixes.
+
+### Control Flow
+- Favor early returns over deep nesting. Extract complex logic into helpers.
+
+### Types & Validation
+- Mirror Zod schemas with `z.infer<typeof Schema>`.
+- Narrow Prisma results with `select`; create DTO types for repeated selects.
+- Validate inputs at boundaries; return typed results.
+
+### Errors
+- Throw `TRPCError` in routers. Elsewhere, use `Error` subclasses with clear messages.
+- Use exhaustive switches; ensure unreachable via `never`.
+
+### React/Next
+- Server Components by default; opt-in to client with `"use client"` only when needed.
+- Keep component props minimal; do not export internal types.
+- Extract reusable stateful logic into hooks.
+
+### Imports
+- Prefer absolute imports with `~/*`. Avoid long relative chains.
+- Do not import server-only modules into client components.
+
+### Lint/Format
+- Follow repo ESLint/Prettier; no warnings in CI.

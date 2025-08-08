@@ -1,0 +1,40 @@
+---
+description: tRPC usage rules for T3 app (routers, procedures, inputs, errors)
+globs:
+  - "src/server/api/**/*.ts"
+  - "src/trpc/**/*.ts*"
+alwaysApply: true
+---
+
+### Routers & Procedures
+- Define small routers per feature (e.g., `tournament`, `team`, `game`).
+- Use `publicProcedure` for anonymous reads only; `protectedProcedure` for any user data or writes.
+- Co-locate Zod schemas with procedures. Inputs must be validated; use `.strict()`.
+
+### Context
+- Access DB via `ctx.db`. Do not import `db` directly in routers.
+- Access session via `ctx.session`. Do not accept `userId` from the client.
+- Derive `tenantId` from session or a server-side context helper; never from input.
+
+### Multi-tenancy Enforcement
+- All reads/writes must include a tenant scope in the Prisma `where`/`data`.
+- Provide helpers like `withTenant(where, tenantId)` to reduce duplication when practical.
+
+### Error Handling
+- Throw `TRPCError` with accurate codes: `BAD_REQUEST`, `UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `CONFLICT`.
+- Don’t expose internal messages. Prefer short, actionable errors.
+
+### Data Shaping
+- Use Prisma `select` to return the minimal fields required by the caller.
+- Map domain entities to UI DTOs if the same selection is reused widely.
+
+### Server-side calls
+- For RSC or server actions, use the server-side caller (`createCaller`). Avoid HTTP roundtrips.
+
+### Revalidation & Invalidation
+- After mutations, invalidate relevant React Query keys on the client.
+- Prefer returning the new/updated entity from mutations to hydrate caches.
+
+### Subscriptions (live scoring)
+- Use tRPC subscriptions only for truly live data (e.g., active game scores).
+- Keep payloads small, throttle if necessary, and avoid per-item channels when a list will do.

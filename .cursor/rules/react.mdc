@@ -1,0 +1,29 @@
+---
+description: React/Next conventions (RSC first, client components, state, data)
+globs:
+  - "src/**/*.tsx"
+alwaysApply: true
+---
+
+### Component Model
+- Default to Server Components. Use Client Components only for interactivity/hooks.
+- Keep components small and focused. Prefer composition over inheritance.
+
+### Data Fetching
+- Use tRPC RSC helpers (`api` + `HydrateClient`) for server data + hydration.
+- In client components, use `api.*.useQuery()` / `useMutation()` with React Query.
+
+### State
+- Local UI state in components. Cross-component async state via React Query.
+- Use React Context sparingly; prefer props/state co-location.
+
+### Events & Forms
+- Use `react-hook-form` + Zod for non-trivial forms. Validate on submit; give inline errors.
+- Debounce expensive handlers; avoid uncontrolled re-renders.
+
+### Accessibility & Semantics
+- Label controls, manage focus, and ensure keyboard navigation works.
+
+### Styling
+- Tailwind utilities; extract className builders with `cn` when long.
+- Use Shadcn primitives and `cva` variants for reusable components.

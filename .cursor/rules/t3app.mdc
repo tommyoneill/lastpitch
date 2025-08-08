@@ -1,0 +1,52 @@
+---
+description: Global rules for building a pragmatic, T3-style app (Next.js + tRPC + Prisma + Auth.js + Shadcn)
+alwaysApply: true
+---
+
+### Principles
+- Keep it simple and shippable. Favor boring, battle-tested choices over novelty.
+- End-to-end types. Validate at the edge with Zod; infer everywhere else.
+- Prefer composition over abstraction. Avoid premature generalization.
+- Optimize for mobile-first UX; keep interactions thumb-friendly.
+
+### Architecture
+- Use Next.js App Router. Server Components by default; add `"use client"` only where needed.
+- Fetch data on the server when possible. Hydrate client via tRPC RSC helpers + React Query.
+- Use tRPC for all app APIs. Public vs protected procedures are the security boundary.
+- Prisma is the single data access layer. Only access via `ctx.db` inside procedures.
+- Keep each tRPC router small and task-oriented. Co-locate Zod schemas with procedures.
+
+### Multi-tenancy (from PRD)
+- Every entity is scoped by `tenantId`. Never accept `tenantId` from the client.
+- Derive `tenantId` from session or request context, not request bodies.
+- Enforce tenant scoping in every read/write (guard in procedures or helper).
+
+### Validation & Error Handling
+- Every mutation/query with input must have a Zod schema. Use `.strict()` for objects.
+- Throw `TRPCError` with correct `code` (NOT generic `Error`). Don’t leak internals.
+- Narrow outputs with Prisma `select` to the minimum fields required.
+
+### Performance
+- Use `httpBatchStreamLink` (already configured); batch by default.
+- Avoid N+1 with Prisma `include/select`. Index common filters (ids, foreign keys, createdAt).
+- Use ISR for public pages that can be static; keep live scoring via tRPC subscriptions only where needed.
+
+### Caching & State
+- React Query: set sensible `staleTime`/`gcTime`. Invalidate on mutational success.
+- Prefer optimistic updates for quick UI feedback; reconcile on server response.
+
+### Security
+- Never trust client-provided ids for ownership/tenant checks; derive from `ctx.session`.
+- Only use `protectedProcedure` for writes or user-specific reads; add role checks when roles land.
+
+### UI/UX (Shadcn)
+- Use Shadcn primitives with Tailwind utilities; prefer composition over monolithic components.
+- Keep accessibility first: label controls, manage focus, use semantic HTML.
+- Keep styles local; share only when duplication becomes churn. Use `cva` for variants.
+
+### Observability & DX
+- Keep log noise low in production; timing middleware okay in dev.
+- Keep route/loader code short; move logic to service functions when it grows.
+
+### When in doubt
+- Start with the simplest working version. Measure before optimizing.
