@@ -26,8 +26,8 @@ TypeScript-first web app using the T3 stack with pragmatic defaults.
 cp .env.example .env
 # Required server envs (see src/env.js):
 # AUTH_SECRET (required in production)
-# AUTH_DISCORD_ID
-# AUTH_DISCORD_SECRET
+# AUTH_GOOGLE_ID
+# AUTH_GOOGLE_SECRET
 # DATABASE_URL (Postgres)
 ```
 
@@ -95,7 +95,7 @@ Defined and validated in `src/env.js` via `@t3-oss/env-nextjs`.
 - `DATABASE_URL` (Postgres connection string)
 - `NODE_ENV`
 
-Auth provider: Discord is configured by default. Add more providers in `src/server/auth/config.ts` (ensure schema fields as needed).
+Auth provider: Google is configured by default. Add more providers in `src/server/auth/config.ts` (ensure schema fields as needed).
 
 ## App architecture (T3 conventions)
 
@@ -151,7 +151,7 @@ export default async function Page() {
 
 - NextAuth v5 (Auth.js) with Prisma adapter.
 - Session augmentation adds `user.id`. Access on server via `auth()` and in tRPC via `ctx.session`.
-- Default provider: Discord. Set `AUTH_DISCORD_ID` and `AUTH_DISCORD_SECRET` in `.env`.
+- Default provider: Google. Set `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in `.env`.
 
 ## Cursor rules (project conventions)
 
