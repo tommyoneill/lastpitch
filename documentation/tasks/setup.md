@@ -28,15 +28,25 @@ This checklist captures the foundation we should complete before building featur
   - [ ] Create helper stub `withTenant(where, tenantId)` for routers
 
 ### tRPC API
-- [ ] Confirm server context exposes `db` and `session` (`~/server/api/trpc.ts`)
+- [X] Confirm server context exposes `db` and `session` (`~/server/api/trpc.ts`)
 - [ ] Add tenant derivation placeholder in context (derive from session/request)
-- [ ] Use `publicProcedure` only for truly public reads
-- [ ] Use `protectedProcedure` for any user-specific reads/writes
+- [X] Use `publicProcedure` only for truly public reads
+- [X] Use `protectedProcedure` for any user-specific reads/writes
 - [ ] Add a basic `health` query for smoke testing
 
+### Scaffold Cleanup (remove demo blog)
+- [ ] Remove demo Post feature end-to-end
+  - [ ] Delete `src/server/api/routers/post.ts`
+  - [ ] Remove `post` from `src/server/api/root.ts`
+  - [ ] Delete `src/app/_components/post.tsx`
+  - [ ] Remove demo usage from `src/app/page.tsx`
+  - [ ] Update `prisma/schema.prisma` to remove `Post` model
+  - [ ] Create and apply migration
+  - [ ] Update README to remove blog references
+
 ### Auth (Auth.js / NextAuth)
-- [ ] Verify Google sign-in/out flow works end-to-end
-- [ ] Session contains `user.id` (already added in callbacks)
+- [X] Verify Google sign-in/out flow works end-to-end
+- [X] Session contains `user.id` (already added in callbacks)
 - [ ] Prepare for roles later (extend `Session` when roles land)
 - [ ] Add basic SignIn/SignOut UI using Shadcn Button
 
@@ -47,11 +57,19 @@ This checklist captures the foundation we should complete before building featur
 - [ ] Layout skeleton with navbar (brand, auth actions) and container
 - [ ] Accessibility baseline: focus styles, labels, keyboard nav
 
+### Home Page Mockup (Last Pitch)
+- [ ] Replace default landing with Last Pitch mockup (RSC)
+  - [ ] Navbar: brand + sign in/out (Shadcn Button)
+  - [ ] Hero: headline, subcopy, primary CTA (Sign in / Try demo)
+  - [ ] “What it enables” section (cards matching PRD bullets)
+  - [ ] Footer (links, minimal)
+  - [ ] Mobile-first layout and accessible structure
+
 ### Data Fetching & State
-- [ ] RSC: use `~/trpc/server` with `HydrateClient` for server data + hydration
-- [ ] Client: use `~/trpc/react` hooks + React Query
-- [ ] Set sensible React Query defaults (staleTime/gcTime) in `createQueryClient`
-- [ ] Add mutation success invalidations for common entities
+- [X] RSC: use `~/trpc/server` with `HydrateClient` for server data + hydration
+- [X] Client: use `~/trpc/react` hooks + React Query
+- [X] Set sensible React Query defaults (staleTime/gcTime) in `createQueryClient`
+- [X] Add mutation success invalidations for common entities
 
 ### Realtime (for live scoring)
 - [ ] Decide transport for live updates (SSE via `httpBatchStreamLink` vs websockets)
@@ -72,5 +90,5 @@ This checklist captures the foundation we should complete before building featur
 - [ ] Optional: Pre-commit hooks (lint-staged) for staged files
 
 ### Docs
-- [ ] Keep `README.md` in sync (Google OAuth, Quickstart, Prisma workflow)
+- [X] Keep `README.md` in sync (Google OAuth, Quickstart, Prisma workflow)
 - [ ] Maintain this `setup.md` checklist; check off items as completed
